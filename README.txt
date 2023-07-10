@@ -1,4 +1,4 @@
-After writing the readme below, I trained a new model in order to get a smaller filesize for the trained model. Github wouldn't let me upload the original trained model of 187600KB. The new model was trained with 64 neurons the hidden layer and reached a loss of 0.00 at 37 epochs and the training was done over a total of 50 epochs. The new model is considerably faster and seems to be just as accurate and confident as the previous one, from the short testing I did.
+After writing the readme below, I trained a new model in order to get a smaller filesize for the trained model. Github wouldn't let me upload the original trained model of 187600KB. The new model was trained with 64 neurons at the input and hidden layers and reached a loss of 0.00 at 37 epochs and the training was done over a total of 50 epochs. The new model is considerably faster and seems to be just as accurate and confident as the previous one, from the short testing I did.
 
 ----------------------------------------
 
