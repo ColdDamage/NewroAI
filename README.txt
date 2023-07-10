@@ -1,3 +1,7 @@
+After writing the readme below, I trained a new model in order to get a smaller filesize for the trained model. Github wouldn't let me upload the original trained model of 187600KB. The new model was trained with 64 neurons the hidden layer and reached a loss of 0.00 at 37 epochs and the training was done over a total of 50 epochs. The new model is considerably faster and seems to be just as accurate and confident as the previous one, from the short testing I did.
+
+----------------------------------------
+
 I made this project to learn how to create a neural network and understand how they work. I set a goal to have the model differentiate between images of human faces and images of flowers. The model flower_network_model.npz has been trained with a total of 400 images over 100 epochs with batch sizes of 8, but good loss values were achieved around 50-60 epochs.
 
 I probably overshot how large the model needs to be, similar results and probably better performance could be achieved with a smaller model.

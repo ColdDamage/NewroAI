@@ -36,13 +36,13 @@ X = X.reshape(num_images, -1)
 
 # Define layers
 # input layer
-dense1 = Layer_Dense(250 * 250 * 3, 128)
+dense1 = Layer_Dense(250 * 250 * 3, 64)
 activation1 = Activation_ReLU()
 # hidden layer
-dense2 = Layer_Dense(128, 128)
+dense2 = Layer_Dense(64, 64)
 activation2 = Activation_ReLU()
 # output layer
-dense3 = Layer_Dense(128, 2)
+dense3 = Layer_Dense(64, 2)
 activation3 = Activation_Softmax()
 
 # Create loss function object
