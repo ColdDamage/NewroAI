@@ -11,23 +11,16 @@ Here are short summaries of the different files:
 -------------training.py---------------
 Use this to create and train a new model.
 
-To train a new model, define the training data folder, model name and layers. If you have more or fewer layers, you also need to adjust the forward and backward pass.
+To train a new model, define model_name, train_folder, num_images and layers to fit your training data and desired model.
 
 You will need to adjust the labling for the images unless you have exactly 200 images of two different categories and they are sorted so that the first category's images are in the folder before the other category.
 
 It's way easier to just put the training images in different folders if you have more than two categories, then have the lables match the folder names.
 
-To make saving the model possible, you need to also define the trained_model dict according to your architechture.
+-------------model_loader.py---------------
+This is a file that loads a trained model for demoing.
 
--------------retraining.py---------------
-This file is for further training of an existing model. Define the model name you want to train (note that it will be overwritten, make a backup) and adjust the layers to match the architechture of your model. If you have more or fewer layers, you also need to adjust the forward and backward pass.
-
-You also have to define the trained_model dict according to your architechture.
-
--------------flower_loader.py---------------
-This is a file that loads flower_network_model.npz for demoing the model. If you want to make a new model and use it in a similar way, you need to change the model_name and make the layer architechture match your model. If you have more or fewer layers, you also need to adjust the forward pass.
-
-If you have more or fewer than 2 outputs, you also need to adjust the printing at the end of the loop.
+If you have more or fewer than 2 outputs, you need to adjust the printing at the end of the loop.
 
 -------------Newro.py---------------
 This file just contains classes needed to create a neural network with this model. You probably don't need to touch these even if you make a new model using it.

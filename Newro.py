@@ -1,4 +1,5 @@
 import numpy as np
+import os
 
 class Layer_Dense:
     def __init__(self, n_inputs, n_neurons):
@@ -76,3 +77,64 @@ class Loss_CategoricalCrossentropy(Loss):
         self.dinputs = -y_true / dvalues
         self.dinputs = self.dinputs / samples
         return self.dinputs
+        
+class Model:
+    def __init__(self):
+        self.layers = []
+        self.activators = []
+    
+    def addLayer(self, weights, neurons, activation):
+        layer = Layer_Dense(weights, neurons)
+        self.layers.append(layer)
+        self.activators.append(activation)
+    
+    def forward_Pass(self, inputs):
+        layer_input = inputs
+        i = 0
+        for layer in self.layers:
+            layer.forward(layer_input)
+            self.activators[i].forward(layer.output)
+            layer_input = self.activators[i].output
+            i += 1
+        return layer_input
+        
+    def backward_Pass(self, output, targets):
+        loss_function = Loss_CategoricalCrossentropy()
+        loss_function.backward(output, targets)
+        dinputs = loss_function.dinputs
+        for i in range(len(self.layers)):
+            index = len(self.layers)-(i+1)
+            self.activators[index].backward(dinputs)
+            self.layers[index].backward(self.activators[index].dinputs)
+            dinputs = self.layers[index].dinputs
+        
+        for layer in self.layers:
+            layer.update_parameters(0.05)
+            
+    def save_Model(self, file_path):
+        trained_model = {};
+        i = 0
+        for layer in self.layers:
+            index = str(i+1)
+            trained_model["dense"+index+"_weights"] = layer.weights
+            trained_model["dense"+index+"_biases"] = layer.biases
+            trained_model["dense"+index+"_activator"] = self.activators[i].__class__.__name__
+            i += 1
+        
+        if(os.path.exists(file_path) == False):
+            os.mkdir(file_path)
+        np.savez(file_path+"/"+file_path+".npz", **trained_model)
+        
+    def load_Model(self, model_name):
+        loaded_model = np.load(model_name+"/"+model_name+".npz", allow_pickle=True)
+        print("")
+        for i in range(int(len(loaded_model)/3)):
+            index = str(i+1)
+            if(loaded_model["dense"+index+"_activator"] == "Activation_ReLU"):
+                self.addLayer(loaded_model["dense"+str(i+1)+"_weights"].shape[0], loaded_model["dense"+str(i+1)+"_biases"].shape[1], Activation_ReLU())
+                print("Loaded layer "+index+": "+str(loaded_model["dense"+index+"_weights"].shape[0])+", "+str(loaded_model["dense"+index+"_biases"].shape[1])+", Activation_ReLU")
+            elif(loaded_model["dense"+index+"_activator"] == "Activation_Softmax"):
+                self.addLayer(loaded_model["dense"+index+"_weights"].shape[0], loaded_model["dense"+index+"_biases"].shape[1], Activation_Softmax())
+                print("Loaded layer "+index+": "+str(loaded_model["dense"+index+"_weights"].shape[0])+", "+str(loaded_model["dense"+index+"_biases"].shape[1])+", Activation_Softmax")
+            self.layers[i].weights = loaded_model["dense"+index+"_weights"]
+            self.layers[i].biases = loaded_model["dense"+index+"_biases"]
