@@ -1,26 +1,17 @@
-After writing the readme below, I trained a new model in order to get a smaller filesize for the trained model. Github wouldn't let me upload the original trained model of 187600KB. The new model was trained with 64 neurons at the input and hidden layers and reached a loss of 0.00 at 37 epochs and the training was done over a total of 50 epochs. The new model is considerably faster and seems to be just as accurate and confident as the previous one, from the short testing I did.
-
-----------------------------------------
-
-I made this project to learn how to create a neural network and understand how they work. I set a goal to have the model differentiate between images of human faces and images of flowers. The model flower_network_model.npz has been trained with a total of 400 images over 100 epochs with batch sizes of 8, but good loss values were achieved around 50-60 epochs.
-
-I probably overshot how large the model needs to be, similar results and probably better performance could be achieved with a smaller model.
+I made this project to learn how to create a neural network and understand how they work. I set a goal to have the model differentiate between images of human faces and images of flowers. The example model has been trained for this purpose with the settings in the model_trainer.py
 
 Here are short summaries of the different files:
 
--------------training.py---------------
+-------------training_data_packer.py----------
+I found it easiest to pack the training data into arrays before starting training. This script does that when you organize your training images into folders that are named per category. The script produces an array of the images in each subfolder and another array for lables, as well as lable names. To use this, just set the directory path on line 44 to match the folder where all of your subfolders are.
+
+-------------model_trainer.py-----------------
 Use this to create and train a new model.
 
-To train a new model, define model_name, train_folder, num_images and layers to fit your training data and desired model.
+To train a new model, define the training variables to match your training data and settings and input the desired layers and neurons.
 
-You will need to adjust the labling for the images unless you have exactly 200 images of two different categories and they are sorted so that the first category's images are in the folder before the other category.
+-------------model_loader.py------------------
+This is a file that loads a trained model for testing. When you run the script, it will ask you for the model name and image filename from the test_images folder.
 
-It's way easier to just put the training images in different folders if you have more than two categories, then have the lables match the folder names.
-
--------------model_loader.py---------------
-This is a file that loads a trained model for demoing.
-
-If you have more or fewer than 2 outputs, you need to adjust the printing at the end of the loop.
-
--------------Newro.py---------------
+-------------Newro.py-------------------------
 This file just contains classes needed to create a neural network with this model. You probably don't need to touch these even if you make a new model using it.

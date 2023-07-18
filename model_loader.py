@@ -1,13 +1,34 @@
 import cv2
 import numpy as np
 import Newro
+import pickle
 
 print("\nThis program loads a model from the folder you designate.\ne.g. to load the model \"example_model/example_model.npz\" just type in \"example_model\"\n\nInput model name to load")
 model_name = input()
 
+label_file = 'training_packed/label_names.pkl' # File path for label names file
+
 # Create layer instances and assign loaded weights and biases
 model = Newro.Model()
 model.load_Model(model_name)
+# Load label files
+
+with open(label_file, 'rb') as f:
+    names_result_list = pickle.load(f)
+label_names = np.array(names_result_list)
+
+def remove_duplicates(arr):
+    unique_dict = {}
+    unique_list = []
+    
+    for item in arr:
+        if item not in unique_dict:
+            unique_dict[item] = True
+            unique_list.append(item)
+    
+    return unique_list
+    
+class_labels = remove_duplicates(label_names)
 
 while True:
     # Load the image to test
@@ -41,6 +62,5 @@ while True:
 
     # Print the prediction and confidence
     print("")
-    class_labels = ['Human (0)', 'Flower (1)']
     print("Prediction:", class_labels[predicted_class])
     print("Confidence:", confidence)
